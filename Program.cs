@@ -9,16 +9,11 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
 {
     internal class Program
     {
-        //Proyecto EACA Cajero con registro y comprobado                ime112768
+        //Proyecto EACA Cajero con registro y comprobado                         ime112768
 
         public enum Menu
         {
-            Consultarcuenta = 1,
-            depositar,
-            retirar,
-            revisarhistorialIngresos,
-            revisarhistorialRetiros,
-            salir
+            Consultarcuenta = 1, depositar, retirar, revisarhistorialIngresos, revisarhistorialRetiros,salir
         }
         static Dictionary<DateTime, Double> revisarhistorialIngresos = new Dictionary<DateTime, Double>();
         static Dictionary<DateTime, Double> revisarhistorialRetiros = new Dictionary<DateTime, Double>();
@@ -33,26 +28,27 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             {
                 if (login())
                 {
-                    Console.WriteLine("Bienvenido");
-                    bool bandera = true;
-                    while (bandera)
+                    while (true)
                     {
-                        switch (menu())
+                        switch (opc)
                         {
                             case 1:
-                                Console.WriteLine("Asistente");
-                                asistente();
-                                bandera = false;
+                                Consultarsaldoactual();
                                 break;
                             case 2:
-                                Console.WriteLine("Programador");
-                                programador();
-                                bandera = false;
+                                Mostrar();
                                 break;
-                            case 3:
-                                Console.WriteLine("Contralor");
-                                contralor();
-                                bandera = false;
+                            case Menu.Eliminar:
+                                Eliminar();
+                                break;
+                            case Menu.Actualizar:
+                                Actualizar();
+                                break;
+                            case Menu.Contar:
+                                Console.WriteLine($"El numero de elementos es: {Contar()}");
+                                break;
+                            case Menu.Enviarcorreo:
+                                Enviarcorreo();
                                 break;
                             default:
                                 break;
@@ -80,7 +76,7 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Console.WriteLine("5) Revisar historial de retiros");
             Console.WriteLine("6) Salir");
             Console.WriteLine("------------------------------");
-            Menu opc = (Menu)Convert.ToInt32(Console.ReadLine());
+           int opc = Convert.ToInt32(Console.ReadLine());
             return opc;
         }
         static bool login()
@@ -88,19 +84,28 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Console.WriteLine("Ingresa tu usurario");
             string user = Convert.ToString(Console.ReadLine());
             Console.WriteLine("contraseña");
-            double contraseña = Convert.ToDouble(Console.ReadLine());
+            int contraseña = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Cúal es tu edad?");
-            double edad = Convert.ToDouble(Console.ReadLine());
+            int edad = Convert.ToInt32(Console.ReadLine());
 
             if (user == "Emilio" && contraseña == "123" && edad >= 18)
             {
-                Console.WriteLine("Bienvenido cumples");
+                Console.WriteLine("Bienvenido al bieneestar");
+                return true;
             }
             else
             {
                 Console.WriteLine("No puedes entrar");
+                return false;
             }
             Console.ReadKey();
+
+            static double Consultarsaldoactual()
+            {
+                Console.WriteLine($"Tu saldo actual es: {saldo}");
+                return true;
+            }
+
         }
 
     }
