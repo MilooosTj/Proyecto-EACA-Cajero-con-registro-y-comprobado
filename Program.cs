@@ -9,16 +9,15 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
 {
     internal class Program
     {
-        //Proyecto EACA Cajero con registro y comprobado                         ime112768
+        // Proyecto EACA Cajero con registro y comprobado ime112768  
 
         public enum Menu
         {
-            Consultarcuenta = 1, depositar, retirar, revisarhistorialIngresos, revisarhistorialRetiros,salir
+            Consultarcuenta = 1, depositar, retirar, revisarhistorialIngresos, revisarhistorialRetiros, salir
         }
         static Dictionary<DateTime, Double> revisarhistorialIngresos = new Dictionary<DateTime, Double>();
         static Dictionary<DateTime, Double> revisarhistorialRetiros = new Dictionary<DateTime, Double>();
         static Double saldo = 0.0;
-
 
         static void Main(string[] args)
         {
@@ -30,27 +29,30 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
                 {
                     while (true)
                     {
-                        switch (opc)
+                        Menu opcion = MenuUsuario();
+                        switch (opcion)
                         {
-                            case 1:
-                                Consultarsaldoactual();
+                            case Menu.Consultarcuenta:
+                                ConsultarSaldoActual();
                                 break;
-                            case 2:
-                                Mostrar();
+                            case Menu.depositar:
+                                Depositar();
                                 break;
-                            case Menu.Eliminar:
-                                Eliminar();
+                            case Menu.retirar:
+                                Retirar();
                                 break;
-                            case Menu.Actualizar:
-                                Actualizar();
+                            case Menu.revisarhistorialIngresos:
+                                RevisarHistorialIngresos();
                                 break;
-                            case Menu.Contar:
-                                Console.WriteLine($"El numero de elementos es: {Contar()}");
+                            case Menu.revisarhistorialRetiros:
+                                RevisarHistorialRetiros();
                                 break;
-                            case Menu.Enviarcorreo:
-                                Enviarcorreo();
+                            case Menu.salir:
+                                Console.WriteLine("¡Hasta luego!");
+                                Environment.Exit(0);
                                 break;
                             default:
+                                Console.WriteLine("Opción no válida.");
                                 break;
                         }
                     }
@@ -60,13 +62,12 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
                     intentos--;
                     Console.WriteLine($"Te quedan {intentos} intentos");
                 }
-
             } while (intentos >= 1);
-            Environment.Exit(0);
 
+            Environment.Exit(0);
         }
 
-        static Menu Men()
+        static Menu MenuUsuario()
         {
             Console.WriteLine("------------------------------");
             Console.WriteLine("1) Consultar saldo actual");
@@ -76,21 +77,22 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Console.WriteLine("5) Revisar historial de retiros");
             Console.WriteLine("6) Salir");
             Console.WriteLine("------------------------------");
-           int opc = Convert.ToInt32(Console.ReadLine());
-            return opc;
+            int opc = Convert.ToInt32(Console.ReadLine());
+            return (Menu)opc;
         }
+
         static bool login()
         {
-            Console.WriteLine("Ingresa tu usurario");
-            string user = Convert.ToString(Console.ReadLine());
-            Console.WriteLine("contraseña");
-            int contraseña = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Cúal es tu edad?");
+            Console.WriteLine("Ingresa tu usuario");
+            string user = Console.ReadLine();
+            Console.WriteLine("Contraseña");
+            string contraseña = Console.ReadLine();
+            Console.WriteLine("¿Cuál es tu edad?");
             int edad = Convert.ToInt32(Console.ReadLine());
 
             if (user == "Emilio" && contraseña == "123" && edad >= 18)
             {
-                Console.WriteLine("Bienvenido al bieneestar");
+                Console.WriteLine("Bienvenido al bienestar");
                 return true;
             }
             else
@@ -98,15 +100,54 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
                 Console.WriteLine("No puedes entrar");
                 return false;
             }
-            Console.ReadKey();
-
-            static double Consultarsaldoactual()
-            {
-                Console.WriteLine($"Tu saldo actual es: {saldo}");
-                return true;
-            }
-
         }
 
+        static void ConsultarSaldoActual()
+        {
+            Console.WriteLine($"Tu saldo actual es: {saldo}");
+        }
+
+        static void Depositar()
+        {
+            Console.WriteLine("¿Cuánto deseas depositar?");
+            double cantidad = Convert.ToDouble(Console.ReadLine());
+            saldo += cantidad;
+            revisarhistorialIngresos[DateTime.Now] = cantidad;
+            Console.WriteLine($"Has depositado {cantidad}. Tu nuevo saldo es {saldo}.");
+        }
+
+        static void Retirar()
+        {
+            Console.WriteLine("¿Cuánto deseas retirar?");
+            double cantidad = Convert.ToDouble(Console.ReadLine());
+            if (cantidad <= saldo)
+            {
+                saldo -= cantidad;
+                revisarhistorialRetiros[DateTime.Now] = cantidad;
+                Console.WriteLine($"Has retirado {cantidad}. Tu nuevo saldo es {saldo}.");
+            }
+            else
+            {
+                Console.WriteLine("Saldo insuficiente.");
+            }
+        }
+
+        static void RevisarHistorialIngresos()
+        {
+            Console.WriteLine("Historial de ingresos:");
+            foreach (var ingreso in revisarhistorialIngresos)
+            {
+                Console.WriteLine($"{ingreso.Key}: {ingreso.Value}");
+            }
+        }
+
+        static void RevisarHistorialRetiros()
+        {
+            Console.WriteLine("Historial de retiros:");
+            foreach (var retiro in revisarhistorialRetiros)
+            {
+                Console.WriteLine($"{retiro.Key}: {retiro.Value}");
+            }
+        }
     }
 }
