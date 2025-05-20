@@ -25,12 +25,12 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
 
             do
             {
-                if (login())
+                if (loggin())
                 {
+                    Console.WriteLine("Bienvenido al cajero BIENESTAR");
                     while (true)
                     {
-                        Menu opcion = MenuUsuario();
-                        switch (opcion)
+                        switch (Men))
                         {
                             case Menu.Consultarcuenta:
                                 ConsultarSaldoActual();
@@ -67,7 +67,7 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Environment.Exit(0);
         }
 
-        static Menu MenuUsuario()
+        static Menu Men()
         {
             Console.WriteLine("------------------------------");
             Console.WriteLine("1) Consultar saldo actual");
@@ -77,11 +77,11 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Console.WriteLine("5) Revisar historial de retiros");
             Console.WriteLine("6) Salir");
             Console.WriteLine("------------------------------");
-            int opc = Convert.ToInt32(Console.ReadLine());
-            return (Menu)opc;
+            Menu opc = (Menu)Convert.ToInt32(Console.ReadLine());
+            return opc
         }
 
-        static bool login()
+        static bool loggin()
         {
             Console.WriteLine("Ingresa tu usuario");
             string user = Console.ReadLine();
