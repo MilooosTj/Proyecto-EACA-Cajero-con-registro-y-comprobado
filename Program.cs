@@ -9,7 +9,7 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
 {
     internal class Program
     {
-        // Proyecto EACA Cajero con registro y comprobado ime112768  
+        // Proyecto EACA Cajero con registro y comprobado                               IME112768  
 
         public enum Menu
         {
@@ -19,6 +19,8 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
         static Dictionary<DateTime, Double> revisarhistorialRetiros = new Dictionary<DateTime, Double>();
         static Double saldo = 0.0;
 
+        //checar static
+
         static void Main(string[] args)
         {
             int intentos = 3;
@@ -27,11 +29,11 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             {
                 if (loggin())
                 {
-                    Console.WriteLine("Bienvenido al cajero BIENESTAR");
                     while (true)
                     {
-                        switch (Men))
+                        switch (Men())
                         {
+
                             case Menu.Consultarcuenta:
                                 ConsultarSaldoActual();
                                 break;
@@ -57,15 +59,18 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
                         }
                     }
                 }
+
                 else
                 {
                     intentos--;
                     Console.WriteLine($"Te quedan {intentos} intentos");
                 }
+
             } while (intentos >= 1);
 
             Environment.Exit(0);
         }
+
 
         static Menu Men()
         {
@@ -78,7 +83,7 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Console.WriteLine("6) Salir");
             Console.WriteLine("------------------------------");
             Menu opc = (Menu)Convert.ToInt32(Console.ReadLine());
-            return opc
+            return opc;
         }
 
         static bool loggin()
@@ -87,12 +92,14 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             string user = Console.ReadLine();
             Console.WriteLine("Contraseña");
             string contraseña = Console.ReadLine();
-            Console.WriteLine("¿Cuál es tu edad?");
-            int edad = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("¿Cuál es tu fecha de nacimiento?");
+            DateTime fecha = Convert.ToDateTime(Console.ReadLine());
+            DateTime fechaActual = DateTime.Now;
+            int anios = fechaActual.Year - fecha.Year;
 
-            if (user == "Emilio" && contraseña == "123" && edad >= 18)
+            if (user == "Emilio" && contraseña == "123" && anios >= 18)
             {
-                Console.WriteLine("Bienvenido al bienestar");
+                Console.WriteLine("Bienvenido al cajero del BIENESTAR");
                 return true;
             }
             else
