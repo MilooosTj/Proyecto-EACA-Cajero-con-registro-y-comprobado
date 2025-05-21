@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using System.Net.Mail;
 
@@ -146,8 +147,22 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             {
                 Console.WriteLine($"{ingreso.Key}: {ingreso.Value}");
             }
-        }
 
+            Console.WriteLine("Deseas enviar el historial de ingresos a tu correo?");
+            Console.WriteLine("1)Si");
+            Console.WriteLine("2)No");
+            int opc = Convert.ToInt32(Console.ReadLine());
+
+            if (opc == 1)
+            {
+                CorreoINGRESOS(revisarhistorialIngresos);
+
+                Console.WriteLine("Correo enviado con éxito");
+            }
+            else if (opc == 2)
+                Console.WriteLine("No se enviará el correo, Muchas gracias!.");
+
+        }
         static void RevisarHistorialRetiros()
         {
             Console.WriteLine("Historial de retiros:");
@@ -155,6 +170,94 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             {
                 Console.WriteLine($"{retiro.Key}: {retiro.Value}");
             }
+
+            Console.WriteLine("Deseas enviar el historial de Retiros a tu correo?");
+            Console.WriteLine("1)Si");
+            Console.WriteLine("2)No");
+            int opc = Convert.ToInt32(Console.ReadLine());
+
+            if (opc == 1)
+            {
+                CorreoRETIROS(revisarhistorialRetiros);
+
+                Console.WriteLine("Correo enviado con éxito");
+            }
+            else if (opc == 2)
+                Console.WriteLine("No se enviará el correo, Muchas gracias!.");
         }
+
+        static bool CorreoINGRESOS(Dictionary<DateTime, double> Ingresos)
+        {
+            string servidorSmtp = "smtp.office365.com";
+            int puerto = 587;
+            string usuario = "112768@alumnouninter.mx";
+            string contrasena = "FamiliaC0rtes";
+
+
+            SmtpClient smtp = new SmtpClient(servidorSmtp)
+            {
+                Port = puerto,
+                Credentials = new NetworkCredential(usuario, contrasena),
+                EnableSsl = true
+            };
+
+            MailMessage mail = new MailMessage
+            {
+                From = new MailAddress(usuario),
+                Subject = "Historial de Ingresos en tu cuenta",
+                IsBodyHtml = false
+            };
+
+            string cuerpoMensaje = "Ingresos de tu cuenta:\n\n";
+            foreach (var tarea in Ingresos)
+            {
+                cuerpoMensaje += $"{tarea.Key}. {tarea.Value}\n";
+            }
+            mail.Body = cuerpoMensaje;
+
+            mail.To.Add("112768@alumnouninter.mx");
+
+            smtp.Send(mail);
+            return true;
+        }
+
+        static bool CorreoRETIROS(Dictionary<DateTime, double> Retiros)
+        {
+            string servidorSmtp = "smtp.office365.com";
+            int puerto = 587;
+            string usuario = "112768@alumnouninter.mx";
+            string contrasena = "FamiliaC0rtes";
+
+
+            SmtpClient smtp = new SmtpClient(servidorSmtp)
+            {
+                Port = puerto,
+                Credentials = new NetworkCredential(usuario, contrasena),
+                EnableSsl = true
+            };
+
+            MailMessage mail = new MailMessage
+            {
+                From = new MailAddress(usuario),
+                Subject = "Historial de Retiros en tu cuenta",
+                IsBodyHtml = false
+            };
+
+
+            string cuerpoMensaje = "Retiros de tu cuenta:\n\n";
+            foreach (var tarea in Retiros)
+            {
+                cuerpoMensaje += $"{tarea.Key}. {tarea.Value}\n";
+            }
+            mail.Body = cuerpoMensaje;
+
+            mail.To.Add("112768@alumnouninter.mx");
+
+
+            smtp.Send(mail);
+            return true;
+        }
+
+
     }
 }
