@@ -156,12 +156,11 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             if (opc == 1)
             {
                 CorreoINGRESOS(revisarhistorialIngresos);
-
                 Console.WriteLine("Correo enviado con éxito");
             }
-            else if (opc == 2)
+            if (opc == 2)            
                 Console.WriteLine("No se enviará el correo, Muchas gracias!.");
-
+                            
         }
         static void RevisarHistorialRetiros()
         {
@@ -179,10 +178,9 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             if (opc == 1)
             {
                 CorreoRETIROS(revisarhistorialRetiros);
-
                 Console.WriteLine("Correo enviado con éxito");
             }
-            else if (opc == 2)
+            if (opc == 2)
                 Console.WriteLine("No se enviará el correo, Muchas gracias!.");
         }
 
