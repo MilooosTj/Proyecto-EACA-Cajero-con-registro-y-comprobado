@@ -11,10 +11,10 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
     internal class Program
     {
         // Proyecto EACA Cajero con registro y comprobado                               IME112768  
-
+        
         public enum Menu
         {
-            Consultarcuenta = 1, depositar, retirar, revisarhistorialIngresos, revisarhistorialRetiros, salir
+            Consultarcuenta = 1, depositar, retirar, revisarhistorialIngresos, revisarhistorialRetiros, DepositosyRetiros, salir
         }
         static Dictionary<DateTime, Double> revisarhistorialIngresos = new Dictionary<DateTime, Double>();
         static Dictionary<DateTime, Double> revisarhistorialRetiros = new Dictionary<DateTime, Double>();
@@ -50,6 +50,9 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
                             case Menu.revisarhistorialRetiros:
                                 RevisarHistorialRetiros();
                                 break;
+                            case Menu.DepositosyRetiros:
+                                DepositoRetiros();
+                                break;
                             case Menu.salir:
                                 Console.WriteLine("¡Hasta luego!");
                                 Environment.Exit(0);
@@ -81,7 +84,8 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             Console.WriteLine("3) Retirar dinero");
             Console.WriteLine("4) Revisar historial de depósitos");
             Console.WriteLine("5) Revisar historial de retiros");
-            Console.WriteLine("6) Salir");
+            Console.WriteLine("6) Revisar cantidad de Depositos o Retiros");
+            Console.WriteLine("7) Salir");
             Console.WriteLine("------------------------------");
             Menu opc = (Menu)Convert.ToInt32(Console.ReadLine());
             return opc;
@@ -158,9 +162,9 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
                 CorreoINGRESOS(revisarhistorialIngresos);
                 Console.WriteLine("Correo enviado con éxito");
             }
-            if (opc == 2)            
+            if (opc == 2)
                 Console.WriteLine("No se enviará el correo, Muchas gracias!.");
-                            
+
         }
         static void RevisarHistorialRetiros()
         {
@@ -182,6 +186,25 @@ namespace Proyecto_EACA_Cajero_con_registro_y_comprobado
             }
             if (opc == 2)
                 Console.WriteLine("No se enviará el correo, Muchas gracias!.");
+        }
+
+        static void DepositoRetiros()
+        {
+            Console.WriteLine("Que hay mas? Cuantos hay de cada uno?");
+
+            if (revisarhistorialIngresos.Count > revisarhistorialRetiros.Count)
+            {
+                Console.WriteLine("Hay más Depositos");
+                Console.WriteLine($"Tienes esa cantidad de Depositos:{revisarhistorialIngresos.Count}");
+                Console.WriteLine($"Tienes esta cantidad de Retiros: {revisarhistorialRetiros.Count}");
+            }
+            else
+            {
+                Console.WriteLine("Tienes más Retiros");
+                Console.WriteLine($"Tienes esta cantidad de Retiros: {revisarhistorialRetiros.Count}");
+                Console.WriteLine($"Tienes esa cantidad de Depositos:{revisarhistorialIngresos.Count}");
+            }
+
         }
 
         static bool CorreoINGRESOS(Dictionary<DateTime, double> Ingresos)
